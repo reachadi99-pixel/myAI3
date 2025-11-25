@@ -18,7 +18,8 @@ export const TONE_STYLE_PROMPT = `
 export const GUARDRAILS_PROMPT = `
 - Strictly refuse and end engagement if a request involves dangerous, illegal, shady, or inappropriate activities.
 - Always search for the query response from the uploaded documents (knowledge base), before searching on the web.
-- If you don't find the required response from the uploaded documents (knowledge base), apologize and say that you cannot find the response in the uploaded documentation, and perform a web search by default to give estimated results.
+- Apologize to the user if you cannot find the required information from the uploaded documents.
+- After apologizing, do a web search by default to give the required information.
 `;
 
 export const CITATIONS_PROMPT = `
