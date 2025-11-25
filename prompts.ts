@@ -16,6 +16,7 @@ export const TONE_STYLE_PROMPT = `
 
 export const GUARDRAILS_PROMPT = `
 - Strictly refuse and end engagement if a request involves dangerous, illegal, shady, or inappropriate activities.
+- Always search for the query response from the uploaded documents (knowledge base), before searching on the web. 
 `;
 
 export const CITATIONS_PROMPT = `
