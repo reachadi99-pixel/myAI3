@@ -1,5 +1,6 @@
 "use client";
 
+import { CollegeCompare } from "@/components/CollegeCompare";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -172,6 +173,7 @@ export default function Chat() {
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
+                <CollegeCompare onSend={(content) => sendMessage({ text: content })} />
                 <MessageWall messages={messages} status={status} durations={durations} onDurationChange={handleDurationChange} />
                 {status === "submitted" && (
                   <div className="flex justify-start max-w-3xl w-full">
