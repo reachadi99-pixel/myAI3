@@ -70,6 +70,7 @@ export default function Chat() {
   const [isClient, setIsClient] = useState(false);
   const [durations, setDurations] = useState<Record<string, number>>({});
   const welcomeMessageShownRef = useRef<boolean>(false);
+  const [showCompare, setShowCompare] = useState(false);
 
   const stored = typeof window !== 'undefined' ? loadMessagesFromStorage() : { messages: [], durations: {} };
   const [initialMessages] = useState<UIMessage[]>(stored.messages);
@@ -124,9 +125,22 @@ export default function Chat() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    sendMessage({ text: data.message });
-    form.reset();
+  const lower = data.message.toLowerCase();
+
+  // If user asks for "compare", show the college comparison UI
+  if (
+    lower.includes("compare college") ||
+    lower.includes("compare colleges") ||
+    lower.includes("compare b-school") ||
+    lower.includes("compare b-schools") ||
+    lower.includes("college comparison")
+  ) {
+    setShowCompare(true);
   }
+
+  sendMessage({ text: data.message });
+  form.reset();
+}
 
   function clearChat() {
     const newMessages: UIMessage[] = [];
