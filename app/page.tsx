@@ -235,6 +235,14 @@ export default function Chat() {
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
+                {/* All chat messages */}
+                <MessageWall
+                  messages={messages}
+                  status={status}
+                  durations={durations}
+                  onDurationChange={handleDurationChange}
+                />
+
                 {/* Comparison UI (appears when user asks to compare) */}
                 {showCompare && (
                   <div className="max-w-3xl w-full mb-3">
@@ -244,14 +252,6 @@ export default function Chat() {
                     />
                   </div>
                 )}
-
-                {/* All chat messages */}
-                <MessageWall
-                  messages={messages}
-                  status={status}
-                  durations={durations}
-                  onDurationChange={handleDurationChange}
-                />
 
                 {/* Loading indicator while streaming */}
                 {status === "submitted" && (
@@ -347,3 +347,4 @@ export default function Chat() {
     </div>
   );
 }
+
