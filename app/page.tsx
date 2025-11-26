@@ -127,18 +127,8 @@ export default function Chat() {
   function onSubmit(data: z.infer<typeof formSchema>) {
   const lower = data.message.toLowerCase();
 
-  const wantsCompare =
-    // generic “compare colleges”
-    lower.includes("compare college") ||
-    lower.includes("compare colleges") ||
-    lower.includes("compare b-school") ||
-    lower.includes("compare b-schools") ||
-    lower.includes("college comparison") ||
-    // NEW: patterns like “compare X vs Y”
-    (lower.includes("compare") &&
-      (lower.includes(" vs ") || lower.includes(" versus ")));
-
-  if (wantsCompare) {
+  // If the user mentions "compare" in any way, show the compare UI
+  if (lower.includes("compare")) {
     setShowCompare(true);
   }
 
