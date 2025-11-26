@@ -20,7 +20,6 @@ import {
   TONE_STYLE_PROMPT,
   GUARDRAILS_PROMPT,
   CITATIONS_PROMPT,
-  DATE_AND_TIME,
 } from '@/prompts';
 
 import { isContentFlagged } from '@/lib/moderation';
@@ -53,7 +52,10 @@ export async function POST(req: Request) {
 
             writer.write({ type: 'start' });
 
-            writer.write({ type: 'text-start', id: textId });
+            writer.write({
+              type: 'text-start',
+              id: textId,
+            });
 
             writer.write({
               type: 'text-delta',
@@ -63,7 +65,10 @@ export async function POST(req: Request) {
                 "Your message violates our guidelines. I can't answer that.",
             });
 
-            writer.write({ type: 'text-end', id: textId });
+            writer.write({
+              type: 'text-end',
+              id: textId,
+            });
 
             writer.write({ type: 'finish' });
           },
@@ -89,7 +94,6 @@ export async function POST(req: Request) {
     { role: 'system', content: TONE_STYLE_PROMPT },
     { role: 'system', content: GUARDRAILS_PROMPT },
     { role: 'system', content: CITATIONS_PROMPT },
-    { role: 'system', content: DATE_AND_TIME },
   ];
 
   // --------------------------------------------------
@@ -99,8 +103,8 @@ export async function POST(req: Request) {
   const result = streamText({
     model: MODEL,
     messages: [
-      ...systemMessages,                // ⬅ inject rules here
-      ...convertToModelMessages(messages), // ⬅ user + history
+      ...systemMessages,
+      ...convertToModelMessages(messages),
     ],
     tools: {
       webSearch,
