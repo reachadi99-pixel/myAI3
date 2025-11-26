@@ -23,7 +23,6 @@ import {
 } from "@/config";
 import Image from "next/image";
 import Link from "next/link";
-import { CollegeCompare } from "@/components/CollegeCompare";
 
 const formSchema = z.object({
   message: z
@@ -96,12 +95,6 @@ export default function Chat() {
       : { messages: [], durations: {} };
   const [initialMessages] = useState<UIMessage[]>(stored.messages);
 
-  const [showCompare, setShowCompare] = useState(false);
-  const [compareDefaults, setCompareDefaults] = useState<{
-    collegeA?: string;
-    collegeB?: string;
-  }>({});
-
   const { messages, sendMessage, status, stop, setMessages } = useChat({
     messages: initialMessages,
   });
@@ -166,18 +159,30 @@ export default function Chat() {
     if (isCompareIntent) {
       // 1) parse colleges (if possible)
       const parsed = parseCompareColleges(text);
-      setCompareDefaults(parsed);
-      setShowCompare(true);
 
-      // 2) show user message as normal chat bubble
-      const newMessage: UIMessage = {
+      // 2) normal user message
+      const userMsg: UIMessage = {
         id: `user-${Date.now()}`,
         role: "user",
         parts: [{ type: "text", text }],
       };
-      setMessages((prev) => [...prev, newMessage]);
 
-      // 3) don't call the model yet (dropdown will send the real compare query)
+      // 3) special assistant "UI" message that will render the dropdown inline
+      const compareUiMsg: UIMessage = {
+        id: `compare-ui-${Date.now()}`,
+        role: "assistant",
+        parts: [
+          {
+            type: "data",
+            data: {
+              kind: "compare-ui",
+              defaults: parsed, // { collegeA, collegeB }
+            },
+          } as any,
+        ],
+      };
+
+      setMessages((prev) => [...prev, userMsg, compareUiMsg]);
       form.reset();
       return;
     }
@@ -193,8 +198,6 @@ export default function Chat() {
     setMessages(newMessages);
     setDurations(newDurations);
     saveMessagesToStorage(newMessages, newDurations);
-    setShowCompare(false);
-    setCompareDefaults({});
     toast.success("Chat cleared");
   }
 
@@ -235,23 +238,14 @@ export default function Chat() {
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
-                {/* All chat messages */}
+                {/* All chat messages (including inline compare UI) */}
                 <MessageWall
                   messages={messages}
                   status={status}
                   durations={durations}
                   onDurationChange={handleDurationChange}
+                  onSend={(content) => sendMessage({ text: content })}
                 />
-
-                {/* Comparison UI (appears when user asks to compare) */}
-                {showCompare && (
-                  <div className="max-w-3xl w-full mb-3">
-                    <CollegeCompare
-                      defaults={compareDefaults}
-                      onSend={(content) => sendMessage({ text: content })}
-                    />
-                  </div>
-                )}
 
                 {/* Loading indicator while streaming */}
                 {status === "submitted" && (
@@ -347,4 +341,3 @@ export default function Chat() {
     </div>
   );
 }
-
