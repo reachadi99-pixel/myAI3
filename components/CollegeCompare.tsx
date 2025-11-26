@@ -80,30 +80,9 @@ export function CollegeCompare({ onSend, defaults }: CollegeCompareProps) {
     );
   };
 
-  const handleCompare = () => {
-  if (!collegeA || !collegeB || selectedParams.length === 0) return;
-
-  const message = `
-Compare **${collegeA}** and **${collegeB}** on the following parameters: ${selectedParams.join(", ")}.
-
-You must produce a single, clear markdown comparison table with:
-- One column per college
-- One row per selected parameter
-
-VERY IMPORTANT RULES:
-1) First, search ONLY the uploaded knowledge base for each value.
-2) If a value **exists in the uploaded documents**, use it directly.
-3) If a value is **missing, unclear, blank, or would result in something like "Not specified in uploaded documents"**:
-   - Automatically call the **webSearch** tool for that missing college + parameter.
-   - Use trustworthy web results to fill that exact cell.
-4) Only write **"Not available in uploaded docs or web"** if BOTH knowledge base and web search fail.
-5) Add a short note **below the table** clearly listing which cells used web results, with citations.
-
-Do NOT provide any explanatory paragraphs above the table. The response should begin directly with the markdown table.
-  `.trim();
-
-  onSend(message);
-};
+  const handleCompare = () => { if (!collegeA || !collegeB || selectedParams.length === 0) 
+    return; 
+    const message = Compare ${collegeA} and ${collegeB} on these parameters: ${selectedParams.join( ", " )}. Show the answer in a clear markdown table.; onSend(message); };
 
   return (
     <div className="border rounded-lg p-3 mb-3 text-sm bg-gray-50">
