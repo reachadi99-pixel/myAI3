@@ -84,8 +84,11 @@ export function CollegeCompare({ onSend, defaults }: CollegeCompareProps) {
   const handleCompare = () => {
   if (!collegeA || !collegeB || selectedParams.length === 0) return;
 
-  // Only send a short trigger message
-  const message = `Compare ${collegeA} and ${collegeB} on ${selectedParams.join(", ")}`;
+  const message = `Compare ${collegeA} and ${collegeB} on ${selectedParams.join(
+    ", "
+  )} using the latest placement and program data (prefer 2024 if available). 
+If a value isn’t clearly available in the uploaded PDFs, use web search to fill it from reliable, preferably official sources, and show a short source note. 
+If you truly cannot find a value anywhere, write "Not available". Present the result as a concise markdown table with one column per college and one row per parameter.`;
 
   onSend(message);
 };
