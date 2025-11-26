@@ -5,7 +5,7 @@ import {
   stepCountIs,
   createUIMessageStream,
   createUIMessageStreamResponse,
-  SystemMessage,
+  type CoreSystemMessage,
 } from 'ai';
 
 import { MODEL } from '@/config';
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
   // --------------------------------------------------
-  // Moderation guardrail
+  // MODERATION CHECK
   // --------------------------------------------------
   const latestUserMessage = messages.filter(m => m.role === 'user').pop();
 
@@ -48,27 +48,21 @@ export async function POST(req: Request) {
       if (moderationResult.flagged) {
         const stream = createUIMessageStream({
           execute({ writer }) {
-            const textId = 'moderation-denial-text';
+            const id = 'moderation-denial-text';
 
             writer.write({ type: 'start' });
 
-            writer.write({
-              type: 'text-start',
-              id: textId,
-            });
+            writer.write({ type: 'text-start', id });
 
             writer.write({
               type: 'text-delta',
-              id: textId,
+              id,
               delta:
                 moderationResult.denialMessage ||
                 "Your message violates our guidelines. I can't answer that.",
             });
 
-            writer.write({
-              type: 'text-end',
-              id: textId,
-            });
+            writer.write({ type: 'text-end', id });
 
             writer.write({ type: 'finish' });
           },
@@ -80,10 +74,9 @@ export async function POST(req: Request) {
   }
 
   // --------------------------------------------------
-  // SYSTEM PROMPT SPLIT INTO MULTIPLE INSTRUCTIONS
+  // SPLIT SYSTEM PROMPT INTO SMALLER INSTRUCTIONS
   // --------------------------------------------------
-
-  const systemMessages: SystemMessage[] = [
+  const systemMessages: CoreSystemMessage[] = [
     { role: 'system', content: IDENTITY_PROMPT },
     { role: 'system', content: TOOL_CALLING_PROMPT },
     { role: 'system', content: TOOL_CALLING_OPTIONS },
@@ -97,14 +90,13 @@ export async function POST(req: Request) {
   ];
 
   // --------------------------------------------------
-  // MAIN MODEL EXECUTION
+  // MAIN EXECUTION
   // --------------------------------------------------
-
   const result = streamText({
     model: MODEL,
     messages: [
-      ...systemMessages,
-      ...convertToModelMessages(messages),
+      ...systemMessages,                 // system instructions
+      ...convertToModelMessages(messages), // chat history
     ],
     tools: {
       webSearch,
