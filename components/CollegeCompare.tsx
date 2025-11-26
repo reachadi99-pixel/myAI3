@@ -84,15 +84,8 @@ export function CollegeCompare({ onSend, defaults }: CollegeCompareProps) {
   const handleCompare = () => {
   if (!collegeA || !collegeB || selectedParams.length === 0) return;
 
-  const message = `Compare ${collegeA} and ${collegeB} on these parameters: ${selectedParams.join(
-    ", "
-  )}.
-Use placement and program data for the 2024 batch (or the latest available year, but always prefer 2024 when possible).
-First, search only the uploaded PDFs for each requested parameter.
-If any requested parameter (especially Median CTC, Average CTC, Highest CTC, Program Fee, Batch Size, QS Ranking, Average Work Experience, Gender Ratio, or Major Recruiters) is missing or unclear in the PDFs, call the webSearch tool to fetch the latest 2024 numbers from reliable, preferably official college sources.
-Do NOT output "Not specified" if the value can be found either in the PDFs or via webSearch. Only use "Not available" when neither the PDFs nor webSearch contain that information.
-Present the final answer in a clear markdown table (one column per college, one row per parameter).
-For any values taken from the web, include a short "Source" link or note in the same cell.`;
+  // Only send a short trigger message
+  const message = `Compare ${collegeA} and ${collegeB} on ${selectedParams.join(", ")}`;
 
   onSend(message);
 };
