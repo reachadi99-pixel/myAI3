@@ -1,6 +1,21 @@
 "use client";
 
 import { useState } from "react";
+export function CollegeCompare({ onSend, defaults }: CollegeCompareProps) {
+  const [collegeA, setCollegeA] = useState("");
+  const [collegeB, setCollegeB] = useState("");
+  const [selectedParams, setSelectedParams] = useState<string[]>([]);
+
+  // When defaults change (after "compare X and Y"), prefill
+  useEffect(() => {
+    if (defaults?.collegeA) setCollegeA(defaults.collegeA);
+    if (defaults?.collegeB) setCollegeB(defaults.collegeB);
+
+    // sensible default parameters for first comparison
+    if (defaults && selectedParams.length === 0) {
+      setSelectedParams(["Median CTC", "Highest CTC", "Average CTC"]);
+    }
+  }, [defaults]);
 
 const COLLEGES = [
   "IIM Ahmedabad",
@@ -29,6 +44,10 @@ const PARAMETERS = [
 
 type CollegeCompareProps = {
   onSend: (content: string) => void;
+  defaults?: {
+    collegeA?: string;
+    collegeB?: string;
+  };
 };
 
 export function CollegeCompare({ onSend }: CollegeCompareProps) {
