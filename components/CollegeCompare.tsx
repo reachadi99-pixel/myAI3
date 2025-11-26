@@ -16,7 +16,6 @@ const COLLEGES = [
 ];
 
 const PARAMETERS = [
-  "QS Ranking",
   "Median CTC",
   "Highest CTC",
   "Average CTC",
@@ -35,6 +34,29 @@ type CollegeCompareProps = {
   };
 };
 
+// map common short forms to official dropdown labels
+function normalizeCollege(name: string): string {
+  if (!name) return "";
+
+  const n = name.toLowerCase().replace(/\./g, "").trim();
+
+  if (n.includes("iima") || n.includes("ahmedabad")) return "IIM Ahmedabad";
+  if (n.includes("iimb") || n.includes("bangalore") || n.includes("bengaluru"))
+    return "IIM Bangalore";
+  if (n.includes("iimc") || n.includes("calcutta")) return "IIM Calcutta";
+  if (n.includes("iiml") || n.includes("lucknow")) return "IIM Lucknow";
+  if (n.includes("iimk") || n.includes("kozhikode")) return "IIM Kozhikode";
+  if (n.includes("xlri")) return "XLRI Jamshedpur";
+  if (n.includes("spjimr") || n.includes("sp jain")) return "SPJIMR Mumbai";
+  if (n.includes("iim mumbai") || n.includes("nmi ms mumbai"))
+    return "IIM Mumbai";
+  if (n.includes("iim udaipur")) return "IIM Udaipur";
+  if (n.includes("bitsom") || n.includes("bit som")) return "BITSoM";
+
+  // fallback: return as-is (select will still show the text even if not in list)
+  return name;
+}
+
 export function CollegeCompare({ onSend, defaults }: CollegeCompareProps) {
   const [collegeA, setCollegeA] = useState("");
   const [collegeB, setCollegeB] = useState("");
@@ -42,12 +64,11 @@ export function CollegeCompare({ onSend, defaults }: CollegeCompareProps) {
 
   // When defaults change (after "compare X and Y"), prefill
   useEffect(() => {
-    if (defaults?.collegeA) setCollegeA(defaults.collegeA);
-    if (defaults?.collegeB) setCollegeB(defaults.collegeB);
+    if (defaults?.collegeA) setCollegeA(normalizeCollege(defaults.collegeA));
+    if (defaults?.collegeB) setCollegeB(normalizeCollege(defaults.collegeB));
 
-    // sensible default parameters for first comparison
     if (defaults && selectedParams.length === 0) {
-      setSelectedParams(["Median CTC", "Highest CTC", "Average CTC"]);
+      setSelectedParams(["QS Ranking", "Median CTC", "Highest CTC", "Average CTC"]);
     }
   }, [defaults]);
 
