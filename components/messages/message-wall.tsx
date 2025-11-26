@@ -33,16 +33,15 @@ export function MessageWall({
     <div className="relative max-w-3xl w-full">
       <div className="relative flex flex-col gap-4">
         {messages.map((message, messageIndex) => {
-          const firstPart = message.parts?.[0];
+          const firstPart: any = message.parts?.[0];
           const isLastMessage = messageIndex === messages.length - 1;
 
           // 🔹 Special inline "compare UI" message – render the dropdown here
           if (
             message.role === "assistant" &&
-            firstPart?.type === "data" &&
-            (firstPart as any).data?.kind === "compare-ui"
+            firstPart?.type === "data-compare-ui"
           ) {
-            const defaults = (firstPart as any).data?.defaults || {};
+            const defaults = firstPart.data?.defaults || {};
 
             return (
               <div key={message.id} className="w-full">
