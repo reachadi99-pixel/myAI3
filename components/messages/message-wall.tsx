@@ -4,19 +4,21 @@ import { UserMessage } from "./user-message";
 import { AssistantMessage } from "./assistant-message";
 import { CollegeCompare } from "@/components/CollegeCompare";
 
+type MessageWallProps = {
+  messages: UIMessage[];
+  status?: string;
+  durations?: Record<string, number>;
+  onDurationChange?: (key: string, duration: number) => void;
+  onSend?: (content: string) => void; // used by CollegeCompare
+};
+
 export function MessageWall({
   messages,
   status,
   durations,
   onDurationChange,
-  onSend, // <-- NEW
-}: {
-  messages: UIMessage[];
-  status?: string;
-  durations?: Record<string, number>;
-  onDurationChange?: (key: string, duration: number) => void;
-  onSend?: (content: string) => void; // <-- NEW
-}) {
+  onSend,
+}: MessageWallProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -34,7 +36,7 @@ export function MessageWall({
           const firstPart = message.parts?.[0];
           const isLastMessage = messageIndex === messages.length - 1;
 
-          // 🔥 SPECIAL INLINE DROPDOWN MESSAGE
+          // 🔹 Special inline "compare UI" message – render the dropdown here
           if (
             message.role === "assistant" &&
             firstPart?.type === "data" &&
@@ -52,7 +54,7 @@ export function MessageWall({
             );
           }
 
-          // 📍 NORMAL USER / ASSISTANT MESSAGES
+          // 🔹 Normal user / assistant messages
           return (
             <div key={message.id} className="w-full">
               {message.role === "user" ? (
