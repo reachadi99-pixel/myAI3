@@ -169,18 +169,17 @@ export default function Chat() {
 
       // 3) special assistant "UI" message that will render the dropdown inline
       const compareUiMsg: UIMessage = {
-        id: `compare-ui-${Date.now()}`,
-        role: "assistant",
-        parts: [
-          {
-            type: "data",
-            data: {
-              kind: "compare-ui",
-              defaults: parsed, // { collegeA, collegeB }
-            },
-          } as any,
-        ],
-      };
+  id: `compare-ui-${Date.now()}`,
+  role: "assistant",
+  parts: [
+    {
+      type: "data-compare-ui", // ✅ matches `data-${string}` pattern
+      data: {
+        defaults: parsed, // { collegeA, collegeB }
+      },
+    } as any,
+  ],
+};
 
       setMessages((prev) => [...prev, userMsg, compareUiMsg]);
       form.reset();
