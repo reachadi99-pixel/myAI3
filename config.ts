@@ -27,10 +27,13 @@ export const OWNER_NAME = "Aditya & Sivadanus";
 export const WELCOME_MESSAGE = `Hi there! I'm ${AI_NAME} — your all-in-one MBA companion.
 I can help you decode everything about India’s top B-schools, including:
 
-✔️ Verified placement reports & official documents
-✔️ B-school profiles, fees, cutoffs, batch stats
-✔️ Faculty insights
-✔️ Run live web searches for the latest stats`
+✔️ Verified placement reports & official documents\n
+✔️ B-school profiles, fees, cutoffs, batch stats\n
+✔️ Faculty insights\n
+✔️ Run live web searches for the latest stats\n
+
+What MBA-related query can I help you with today?
+`;
 
 export const CLEAR_CHAT_TEXT = "New";
 
