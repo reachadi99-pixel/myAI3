@@ -16,6 +16,7 @@ const COLLEGES = [
 ];
 
 const PARAMETERS = [
+  "QS Ranking",
   "Median CTC",
   "Highest CTC",
   "Average CTC",
