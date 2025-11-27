@@ -83,6 +83,7 @@ export const TONE_STYLE_PROMPT_PART_2 = `
 `;
 
 export const GUARDRAILS_PROMPT_PART_1 = `
+- If the user asks what you do or what you can do, respond with CAPABILITY_MESSAGE.
 - Strictly refuse and end engagement if a request involves dangerous, illegal, shady, or inappropriate activities.
 `;
 
