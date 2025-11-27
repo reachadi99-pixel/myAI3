@@ -40,7 +40,7 @@ What MBA-related query can I help you with today?`
 export const CAPABILITY_MESSAGE = `
 I’m MB-AI, an MBA intelligence assistant designed to help you evaluate B-schools with real, verified data.
 
-I can:
+I can:</br>
 • Compare any two MBA colleges across fees, placements, rankings, and batch stats  
 • Pull facts from official placement reports and run live web searches for missing data  
 • Decode recruiters, salaries, specialisations, program formats, and faculty strengths  
