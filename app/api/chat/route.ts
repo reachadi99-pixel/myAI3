@@ -8,7 +8,7 @@ import {
   type CoreSystemMessage,
 } from 'ai';
 
-import { MODEL } from '@/config';
+import { MODEL, CAPABILITY_MESSAGE } from '@/config';
 import {
   IDENTITY_PROMPT,
   TOOL_CALLING_PROMPT,
@@ -36,8 +36,9 @@ export async function POST(req: Request) {
   // --------------------------------------------------
   const latestUserMessage = messages.filter(m => m.role === 'user').pop();
 
+  let textParts = '';
   if (latestUserMessage) {
-    const textParts = latestUserMessage.parts
+    textParts = latestUserMessage.parts
       .filter(part => part.type === 'text')
       .map(part => ('text' in part ? part.text : ''))
       .join('');
@@ -51,9 +52,7 @@ export async function POST(req: Request) {
             const id = 'moderation-denial-text';
 
             writer.write({ type: 'start' });
-
             writer.write({ type: 'text-start', id });
-
             writer.write({
               type: 'text-delta',
               id,
@@ -61,9 +60,7 @@ export async function POST(req: Request) {
                 moderationResult.denialMessage ||
                 "Your message violates our guidelines. I can't answer that.",
             });
-
             writer.write({ type: 'text-end', id });
-
             writer.write({ type: 'finish' });
           },
         });
@@ -71,6 +68,35 @@ export async function POST(req: Request) {
         return createUIMessageStreamResponse({ stream });
       }
     }
+  }
+
+  // --------------------------------------------------
+  // CAPABILITY INTERCEPT ("what do you do?" etc.)
+  // --------------------------------------------------
+
+  const capabilityTriggers = [
+    "what do you do",
+    "what can you do",
+    "who are you",
+    "help",
+    "what is mb-ai",
+    "what can you help me with"
+  ];
+
+  if (textParts && capabilityTriggers.some(q => textParts.toLowerCase().includes(q))) {
+    const stream = createUIMessageStream({
+      execute({ writer }) {
+        const id = 'capability-text';
+
+        writer.write({ type: 'start' });
+        writer.write({ type: 'text-start', id });
+        writer.write({ type: 'text-delta', id, delta: CAPABILITY_MESSAGE });
+        writer.write({ type: 'text-end', id });
+        writer.write({ type: 'finish' });
+      },
+    });
+
+    return createUIMessageStreamResponse({ stream });
   }
 
   // --------------------------------------------------
@@ -92,25 +118,11 @@ export async function POST(req: Request) {
   // --------------------------------------------------
   // MAIN EXECUTION
   // --------------------------------------------------
-
-  const capabilityTriggers = [
-  "what do you do",
-  "what can you do",
-  "who are you",
-  "help",
-  "what is mb-ai",
-  "what can you help me with"
-];
-
-if (capabilityTriggers.some(q => userMessage.toLowerCase().includes(q))) {
-  return CAPABILITY_MESSAGE;
-}
-
   const result = streamText({
     model: MODEL,
     messages: [
-      ...systemMessages,                 // system instructions
-      ...convertToModelMessages(messages), // chat history
+      ...systemMessages,
+      ...convertToModelMessages(messages),
     ],
     tools: {
       webSearch,
