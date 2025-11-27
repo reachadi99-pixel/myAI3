@@ -1,0 +1,127 @@
+I’m building a front-end UI for an AI chatbot called MB-AI, an MBA-focused assistant for Indian B-schools. Please create a clean, modern single-page web UI (React + TypeScript + Tailwind CSS preferred, but plain React + CSS is also fine) with the following behaviour and layout:
+
+🔧 Context about the bot (important)
+
+Name: MB-AI
+
+Purpose: Help candidates evaluate Indian MBA / B-school options using:
+
+A knowledge base (uploaded documents like placement reports)
+
+Live web search (but this should be invisible to the user in the UI)
+
+The backend is already built (similar to Vercel’s useChat / /api/chat pattern). You don’t need to implement the AI logic, just assume there is a sendMessage(text: string) function that returns streamed assistant messages.
+
+🎨 Layout requirements
+
+Build a layout similar to a modern chat app:
+
+Full-height layout
+
+Page fills the viewport.
+
+Main structure:
+
+Fixed header at the top
+
+Scrollable chat area in the middle
+
+Fixed input bar at the bottom
+
+Header
+
+Left: small logo/avatar (placeholder is fine) for MB-AI.
+
+Center: text Chat with MB-AI.
+
+Right: a “New” button that clears the conversation.
+
+Chat area
+
+Centered, max-width ~700–800px on large screens, full width on mobile.
+
+Messages stacked vertically:
+
+User messages: right-aligned bubbles.
+
+Assistant messages: left-aligned bubbles.
+
+On initial load (no prior messages), show a welcome message from MB-AI with this text (or a slightly formatted version):
+
+Hi there! I'm MB-AI — India’s first MBA intelligence assistant.
+I help you make smarter B-school decisions using verified placement data and live web-sourced stats — not rumours or outdated blogs.
+Ask me about:
+• Comparing B-schools
+• Placements, fees, cutoffs, batch stats
+• Recruiters, specialisations, ROI and more
+
+Input bar
+
+Sticks to the bottom.
+
+Contains:
+
+A single-line text input.
+
+A Send button (icon-only or with text).
+
+Hitting Enter sends the message (Shift+Enter should allow multi-line only if easy; otherwise just single-line is fine).
+
+🤖 Behaviour & UX details
+
+Analyzing indicator (thinking state)
+
+When a message is sent and the bot is thinking/streaming:
+
+Show a small row below the last message:
+
+A spinner icon
+
+Text: Analyzing your query with animated dots:
+
+Analyzing your query
+
+Analyzing your query.
+
+Analyzing your query..
+
+Analyzing your query...
+
+The dots should loop every ~400–500ms while waiting for the response.
+
+When the assistant response is complete, this indicator disappears.
+
+No tool / web search UI
+
+Do NOT show any messages like:
+
+“Used tool”
+
+“Searched the web”
+
+“Calling webSearch…”
+
+The UI should only show:
+
+User messages
+
+Assistant’s natural language replies
+
+No sources by default
+
+The assistant sometimes uses citations or sources internally, but:
+
+By default, do not show any “Sources” section.
+
+The user might later type something like “show sources” — that will come as a normal message and the assistant will reply with sources. You don’t need a special UI for this beyond rendering whatever text the assistant sends.
+
+College comparison UI (optional placeholder)
+
+The system supports a special flow when the user types things like:
+compare IIM A and IIM B or compare XLRI vs IIM Indore.
+
+For this UI, just keep it simple:
+
+No need to implement an actual comparison form.
+
+Just make sure the chat layout is flexible enough to later insert a custom React component in place of a normal assistant message (e.g., a comparison card or table).
