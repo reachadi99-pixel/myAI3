@@ -21,24 +21,24 @@ function getDateAndTime(): string {
 
 export const DATE_AND_TIME = getDateAndTime();
 
-export const AI_NAME = "MB-AI";
+export const AI_NAME = "MBA Mentor";
 export const OWNER_NAME = "Aditya & Sivadanus";
-export const WELCOME_MESSAGE = `Hi there! I'm ${AI_NAME} — India's first MBA intelligence assistant.
+export const WELCOME_MESSAGE = `Welcome! I'm your dedicated MBA counselling assistant.
 
-I help you make smarter B-school decisions using **verified data**, not rumours. You can ask me about:
+I provide **data-driven insights** to help you make informed B-school decisions:
 
-✔️ College comparisons with live web-verified stats  
-✔️ Placement reports, fees, batch profiles & cutoffs  
-✔️ Program strengths & career outcomes  
-✔️ Recruiters, salaries, industry trends, and more
+- **College Comparisons** — Side-by-side analysis with verified statistics
+- **Placement Analytics** — Salary trends, top recruiters, and sector-wise data
+- **Admission Guidance** — Cutoffs, selection criteria, and profile evaluation
+- **ROI Analysis** — Fee structures vs. career outcomes
 
-Just tell me the college, parameter, or doubt you're evaluating — I'll decode it for you in seconds.
+My recommendations are based on official placement reports and real-time verified data — not rumors or outdated information.
 
-What MBA-related query can I help you with today?`
+How can I assist you with your MBA journey today?`
 ;
 
 export const CAPABILITY_MESSAGE = `
-I’m MB-AI, an MBA intelligence assistant designed to help you evaluate B-schools with real, verified data.
+I’m MBA Mentor, an MBA intelligence assistant designed to help you evaluate B-schools with real, verified data.
 
 I can:</br>
 • Compare any two MBA colleges across fees, placements, rankings, and batch stats  

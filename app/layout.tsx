@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MyAI3",
-  description: "MyAI3",
+  title: "MBA Mentor - Your Personal MBA Counsellor",
+  description: "Get data-driven insights on B-schools, placements, fees, and career outcomes. India's first MBA intelligence assistant for aspiring MBA students.",
 };
 
 export default function RootLayout({

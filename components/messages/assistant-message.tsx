@@ -19,7 +19,7 @@ export function AssistantMessage({
 }: Props) {
   return (
     <div className="w-full">
-      <div className="text-sm flex flex-col gap-4">
+      <div className="text-sm flex flex-col gap-4 bg-card rounded-2xl p-4 border border-border/50 shadow-sm">
         {message.parts.map((part, i) => {
           const isStreaming =
             status === "streaming" &&
