@@ -21,7 +21,7 @@ function getDateAndTime(): string {
 
 export const DATE_AND_TIME = getDateAndTime();
 
-export const AI_NAME = "MBA Mentor";
+export const AI_NAME = "MB-AI";
 export const OWNER_NAME = "Aditya & Sivadanus";
 export const WELCOME_MESSAGE = `Welcome! I'm your dedicated MBA counselling assistant.
 
@@ -38,7 +38,7 @@ How can I assist you with your MBA journey today?`
 ;
 
 export const CAPABILITY_MESSAGE = `
-I’m MBA Mentor, an MBA intelligence assistant designed to help you evaluate B-schools with real, verified data.
+I’m MB-AI, an MBA intelligence assistant designed to help you evaluate B-schools with real, verified data.
 
 I can:</br>
 • Compare any two MBA colleges across fees, placements, rankings, and batch stats  
