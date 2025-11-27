@@ -23,7 +23,6 @@ export const DATE_AND_TIME = getDateAndTime();
 
 export const AI_NAME = "MB-AI";
 export const OWNER_NAME = "Aditya & Sivadanus";
-export const CAPABILITY_MESSAGE = `...`;
 export const WELCOME_MESSAGE = `Hi there! I'm ${AI_NAME} — India's first MBA intelligence assistant.
 
 I help you make smarter B-school decisions using **verified data**, not rumours. You can ask me about:
