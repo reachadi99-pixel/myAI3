@@ -200,10 +200,10 @@ export default function Chat() {
     toast.success("Chat cleared");
   }
 
-  // ---------------- HIDE TOOL-ONLY MESSAGES FROM UI ----------------
+  // ---------------- HIDE TOOL-ONLY / NON-DISPLAY MESSAGES FROM UI ----------------
   const visibleMessages = messages.filter((m) => {
-    // Hide explicit tool-role messages if any
-    if (m.role === "tool") return false;
+    // Hide system messages if any
+    if (m.role === "system") return false;
 
     // Always keep user messages
     if (m.role === "user") return true;
@@ -218,7 +218,7 @@ export default function Chat() {
 
     return hasDisplayablePart;
   });
-  // -----------------------------------------------------------------
+  // -------------------------------------------------------------------------------
 
   return (
     <div className="flex h-screen items-center justify-center font-sans dark:bg-black">
@@ -257,7 +257,7 @@ export default function Chat() {
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
-                {/* All chat messages (tool messages filtered out) */}
+                {/* All chat messages (tool/status messages filtered out) */}
                 <MessageWall
                   messages={visibleMessages}
                   status={status}
